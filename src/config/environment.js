@@ -49,6 +49,9 @@ const env = {
   mongo: {
     host: value.MONGO_HOST,
     port: value.MONGO_PORT,
+    username: value.MONGO_USERNAME,
+    password: value.MONGO_PASSWORD,
+    db: value.MONGO_DB,
     debug: value.MONGO_DEBUG
   },
   jwtSecret: value.JWT_SECRET

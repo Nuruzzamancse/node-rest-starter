@@ -22,13 +22,14 @@ const mongoOption = {
   useCreateIndex: true,
   keepAlive: true,
   useNewUrlParser: true,
-  useFindAndModify: false
+  useFindAndModify: false,
+  useUnifiedTopology: true
 }
 
 /**
  * connect to mongo db
  */
-const mongoUri = env.mongo.host
+const mongoUri = `mongodb://${env.mongo.username}:${env.mongo.password}@${env.mongo.host}:${env.mongo.port}/${env.mongo.db}`
 mongoose.connect(mongoUri, mongoOption)
 mongoose.connection.on('error', () => {
   throw new Error(`Unable to connect to database: ${mongoUri}`)

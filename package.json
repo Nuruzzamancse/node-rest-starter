@@ -53,7 +53,7 @@
     "start:watch": "nodemon ./src/index.js",
     "start:debug": "node ./src/index.js",
     "lint": "eslint --ext=.js src || true",
-    "test": "NODE_ENV=test MONGO_HOST=mongodb://localhost/nrs-test jest",
+    "test": "NODE_ENV=test MONGO_HOST=localhost MONGO_PORT=27017 MONGO_USERNAME=uncount MONGO_PASSWORD=uncount",
     "test:watch": "NODE_ENV=test MONGO_HOST=mongodb://localhost/nrs-test jest --watch",
     "test:coverage": "NODE_ENV=test MONGO_HOST=mongodb://localhost/nrs-test jest --coverage",
     "precommit": "eslint --ext=.js src && npm run test",
