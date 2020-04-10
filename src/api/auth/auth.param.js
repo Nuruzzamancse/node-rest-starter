@@ -6,7 +6,9 @@ module.exports = {
    * @apiGroup Auth
    */
   login: {
-    username: Joi.string().required(),
-    password: Joi.string().required()
+    body: {
+      mobileNumber: Joi.string().required(),
+      password: Joi.string().required()
+    }
   }
 }

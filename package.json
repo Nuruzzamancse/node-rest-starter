@@ -31,7 +31,10 @@
     "jsonwebtoken": "^8.4.0",
     "lodash": "^4.17.11",
     "method-override": "^3.0.0",
-    "mongoose": "^5.4.2"
+    "body-parser": "^1.18.3",
+    "mysql2": "^1.5.3",
+    "sequelize": "^5.9.4",
+    "sequelize-paginate": "^1.1.6"
   },
   "devDependencies": {
     "apidoc": "^0.17.7",
@@ -46,10 +49,17 @@
     "husky": "^0.14.3",
     "jest": "^23.6.0",
     "nodemon": "^1.18.9",
-    "supertest": "^3.3.0"
+    "supertest": "^3.3.0",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-3": "^6.24.1",
+    "faker": "^4.1.0",
+    "lodash.random": "^3.2.0",
+    "lodash.times": "^4.3.2",
+    "sequelize-cli": "^4.0.0"
   },
   "scripts": {
-    "start": "node ./src/index.js",
+    "start": "npx nodemon --exec babel-node ./src/index.js",
     "start:watch": "nodemon ./src/index.js",
     "start:debug": "node ./src/index.js",
     "lint": "eslint --ext=.js src || true",

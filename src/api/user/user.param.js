@@ -7,9 +7,10 @@ module.exports = {
    */
   create: {
     body: {
-      username: Joi.string().required(),
+      userName: Joi.string().required(),
       mobileNumber: Joi.string().required(),
-      password: Joi.string().required()
+      password: Joi.string().required(),
+      fullName: Joi.string().required()
     }
   },
 
