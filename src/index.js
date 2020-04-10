@@ -1,24 +1,22 @@
-/* eslint-disable node/no-unsupported-features/es-syntax */
-/* eslint-disable promise/always-return */
-/* eslint-disable promise/catch-or-return */
 /**
  * Wrap all console logs with consola
  */
-import consola from 'consola'
-import db from './models'
-import { seedDummyData } from './utils/fakers'
-
-import app from './config/express'
-import env from './config/environment'
-
+const consola = require('consola')
 consola.wrapAll()
+
+const app = require('./config/express')
+const env = require('./config/environment')
+const mongoose = require('./config/mongoose')
 
 /**
  * Start application if not running test
  */
 if (env.nodeEnv !== 'test') {
-  db.sequelize.sync().then(() => {
-    seedDummyData()
+  mongoose.connection.on('connected', () => {
+    consola.ready({
+      message: 'MongoDB',
+      badge: true
+    })
     app.listen(env.port, () => {
       consola.ready({
         message: `${env.appName} Server`,
@@ -28,6 +26,7 @@ if (env.nodeEnv !== 'test') {
       consola.info(`Environment: ${env.nodeEnv}`)
       consola.info(`Port: ${env.port}`)
       consola.info(`Base uri: http://localhost:${env.port}/api`)
+      consola.info(`Mongo uri: ${env.mongo.host}`)
     })
   })
 }

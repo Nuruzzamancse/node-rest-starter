@@ -1,20 +1,17 @@
-/* eslint-disable node/no-unsupported-features/es-syntax */
 const _ = require('lodash')
 const bcrypt = require('bcryptjs')
 const httpStatus = require('http-status')
 
-const db = require('../../models/index')
+const User = require('./user.model')
 const APIError = require('../../libs/APIError')
 
 const salt = bcrypt.genSaltSync(10)
-
-const UsersPublicField = ['id', 'fullName', 'mobileNumber', 'userName']
 /**
  * Load user and append to req object
  */
 async function load (req, res, next, id) {
   try {
-    req.user = await db.user.findByPk(id)
+    req.user = await User.get({ '_id': id })
     return next()
   } catch (e) {
     next(e)
@@ -28,7 +25,7 @@ async function load (req, res, next, id) {
  */
 function get (req, res, next) {
   const user = req.user
-  const sendUser = _.pick(user, UsersPublicField)
+  const sendUser = _.pick(user, ['_id', 'username', 'mobileNumber'])
   return res.json(sendUser)
 }
 
@@ -41,15 +38,13 @@ function get (req, res, next) {
  */
 async function create (req, res, next) {
   try {
-    const savedUser = await db.user
-      .create({
-        userName: req.body.userName,
-        mobileNumber: req.body.mobileNumber,
-        fullName: req.body.fullName,
-        password: bcrypt.hashSync(req.body.password, salt)
-      })
-
-    const sendUser = _.pick(savedUser, UsersPublicField)
+    const user = new User({
+      username: req.body.username,
+      mobileNumber: req.body.mobileNumber,
+      password: bcrypt.hashSync(req.body.password, salt)
+    })
+    const savedUser = await user.save()
+    const sendUser = _.pick(savedUser, ['_id', 'username', 'mobileNumber'])
     return res.json(sendUser)
   } catch (e) {
     let err = e
@@ -68,18 +63,10 @@ async function create (req, res, next) {
  */
 async function update (req, res, next) {
   try {
-    const savedUser = await db.user
-      .update(
-        {
-          mobileNumber: req.body.mobileNumber
-        },
-        {
-          where: {
-            id: req.params.id
-          }
-        }
-      )
-    const sendUser = _.pick(savedUser, UsersPublicField)
+    const user = req.user
+    user.mobileNumber = req.body.mobileNumber
+    const savedUser = await user.save()
+    const sendUser = _.pick(savedUser, ['_id', 'username', 'mobileNumber'])
     return res.json(sendUser)
   } catch (e) {
     next(e)
@@ -93,8 +80,12 @@ async function update (req, res, next) {
  * @returns {<User[], Error>}
  */
 async function list (req, res, next) {
-  const result = await db.user.findAll()
-  return res.json(result)
+  try {
+    const users = await User.list(req.query)
+    return res.json(users)
+  } catch (e) {
+    next(e)
+  }
 }
 
 /**
@@ -104,12 +95,8 @@ async function list (req, res, next) {
  */
 async function remove (req, res, next) {
   try {
-    const deletedUser = await db.user
-      .destroy({
-        where: {
-          id: req.params.id
-        }
-      })
+    const user = req.user
+    const deletedUser = await user.remove()
     const sendUser = _.pick(deletedUser, ['_id', 'username', 'mobileNumber'])
     return res.json(sendUser)
   } catch (e) {
@@ -123,6 +110,5 @@ module.exports = {
   create,
   list,
   update,
-  remove,
-  UsersPublicField
+  remove
 }
