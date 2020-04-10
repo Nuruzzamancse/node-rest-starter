@@ -4,19 +4,20 @@ const supertest = require('supertest')
 const httpStatus = require('http-status')
 
 const app = require('../index')
-const User = require('../api/user/user.model')
+const db = require('../models')
 const JWToken = require('../libs/jwToken')
 
 afterAll((done) => {
-  User.deleteMany({})
-    .then(() => done())
-    .catch(done)
+  db.User.destroy({
+    where: {},
+    truncate: true
+  })
 })
 
 describe('User API specs', () => {
   let user
   const userData = {
-    username: 'user123',
+    userName: 'user123',
     mobileNumber: '1234567890',
     password: 'pass123'
   }
@@ -30,7 +31,7 @@ describe('User API specs', () => {
         .expect(httpStatus.OK)
         .then((res) => {
           expect(res.body).toHaveProperty('_id')
-          expect(res.body.username).toEqual(userData.username)
+          expect(res.body.userName).toEqual(userData.userName)
           expect(res.body.mobileNumber).toEqual(userData.mobileNumber)
           expect(res.body).not.toHaveProperty('password')
           user = res.body
@@ -88,7 +89,7 @@ describe('User API specs', () => {
         .set('Authorization', `Bearer ${token}`)
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body.username).toEqual(user.username)
+          expect(res.body.userName).toEqual(user.userName)
           expect(res.body.mobileNumber).toEqual(user.mobileNumber)
           expect(res.body).not.toHaveProperty('password')
           return done()
@@ -105,7 +106,7 @@ describe('User API specs', () => {
         .send({ mobileNumber: '0987654321' })
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body.username).toEqual(user.username)
+          expect(res.body.userName).toEqual(user.userName)
           expect(res.body.mobileNumber).toEqual('0987654321')
           expect(res.body).not.toHaveProperty('password')
           return done()
@@ -121,7 +122,7 @@ describe('User API specs', () => {
         .set('Authorization', `Bearer ${token}`)
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body.username).toEqual(user.username)
+          expect(res.body.userName).toEqual(user.userName)
           expect(res.body.mobileNumber).toEqual('0987654321')
           expect(res.body).not.toHaveProperty('password')
           return done()
