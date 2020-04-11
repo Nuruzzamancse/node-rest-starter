@@ -1,8 +1,9 @@
 {
-  "name": "node-rest-starter",
-  "description": "A boilerplate for creating RESTful APIs in Node.js using Express and MongoDB.",
+  "name": "saftety-count-web-portal",
+  "description": "A boilerplate for creating RESTful APIs in Node.js using Express and Sequlize.",
   "version": "0.6.0",
-  "author": "Sk Arif <skarif2@gmail.com>",
+  "author": "Sk Arif",
+  "contributor": "Nuruzzaman Khan Nabwab",
   "license": "MIT",
   "repository": "github:skarif2/node-rest-starter",
   "homepage": "https://github.com/skarif2/node-rest-starter#readme",
