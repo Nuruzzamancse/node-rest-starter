@@ -49,6 +49,7 @@ async function create (req, res, next) {
         password: bcrypt.hashSync(req.body.password, salt)
       })
 
+    console.log(savedUser)
     const sendUser = _.pick(savedUser, UsersPublicField)
     return res.json(sendUser)
   } catch (e) {
@@ -93,7 +94,13 @@ async function update (req, res, next) {
  * @returns {<User[], Error>}
  */
 async function list (req, res, next) {
-  const result = await db.user.findAll()
+  const result = await db.user.findAll(
+    {
+      attributes: {
+        exclude: ['password']
+      }
+    }
+  )
   return res.json(result)
 }
 
@@ -110,7 +117,7 @@ async function remove (req, res, next) {
           id: req.params.id
         }
       })
-    const sendUser = _.pick(deletedUser, ['_id', 'username', 'mobileNumber'])
+    const sendUser = _.pick(deletedUser, UsersPublicField)
     return res.json(sendUser)
   } catch (e) {
     next(e)

@@ -6,10 +6,12 @@ const methodOverride = require('method-override')
 const validation = require('express-validation')
 const httpStatus = require('http-status')
 const logger = require('@skarif2/logger')
+const path = require('path')
 
 const env = require('./environment')
 const routes = require('../index.route')
 const APIError = require('../libs/APIError')
+const basicAuth = require('../middlewares/basicAuth')
 
 const app = express()
 
@@ -71,6 +73,13 @@ app.use((err, req, res, next) => {
     return next(apiError)
   }
   return next(err)
+})
+
+// Set static folder
+app.use('/static', express.static('docs'))
+app.use('/docs', basicAuth, express.static('docs'))
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'docs', 'index.html'))
 })
 
 /**

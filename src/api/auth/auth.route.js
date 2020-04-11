@@ -12,10 +12,16 @@ router.route('/login')
    * @apiGroup Auth
    * @apiVersion 1.0.0
    *
-   * @apiParam (body) {String} username Username of user
-   * @apiParam (body) {String} password Password of user
+   * @apiParam (body) {String} mobileNumber Mobile number of user
+   * @apiParam (body) {String} password     Password of user
    *
    * @apiSuccess {String} token JWT token
+   * @apiSuccess {Object} user              Details of user
+   * @apiSuccess {String} user.userName     Username of user
+   * @apiSuccess {String} user.fullName     Fullname of user
+   * @apiSuccess {String} user.mobileNumber Mobile number of user
+   *
+   *
    * @apiError {Object} error Error response
    */
   .post(validate(authParam.login), authCtrl.login)

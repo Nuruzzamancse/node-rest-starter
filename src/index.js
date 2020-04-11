@@ -4,12 +4,12 @@
 /**
  * Wrap all console logs with consola
  */
-import consola from 'consola'
-import db from './models'
-import { seedDummyData } from './utils/fakers'
+const consola = require('consola')
+const db = require('./models')
+// const { seedDummyData } = require('./utils/fakers')
 
-import app from './config/express'
-import env from './config/environment'
+const app = require('./config/express')
+const env = require('./config/environment')
 
 consola.wrapAll()
 
@@ -18,7 +18,7 @@ consola.wrapAll()
  */
 if (env.nodeEnv !== 'test') {
   db.sequelize.sync().then(() => {
-    seedDummyData()
+    // seedDummyData()
     app.listen(env.port, () => {
       consola.ready({
         message: `${env.appName} Server`,

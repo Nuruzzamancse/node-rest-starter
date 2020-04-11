@@ -14,17 +14,18 @@ const { UsersPublicField } = require('../user/user.controller')
  */
 async function login (req, res, next) {
   try {
-    const { dataValues } = await db.user.findOne({
+    const user = await db.user.findOne({
       where: {
         mobileNumber: req.body.mobileNumber
-      }
+      },
+      raw: true
     })
-    if (bcrypt.compareSync(req.body.password, dataValues.password)) {
-      const payload = _.pick(dataValues, UsersPublicField)
+    if (bcrypt.compareSync(req.body.password, user.password)) {
+      const payload = _.pick(user, UsersPublicField)
       const token = JWToken.create(payload, '20m')
       return res.json({
         token,
-        user: _.pick(dataValues, UsersPublicField)
+        user: _.pick(user, UsersPublicField)
       })
     }
     throw new APIError('Authentication error!', httpStatus.UNAUTHORIZED, true)

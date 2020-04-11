@@ -39,7 +39,9 @@ module.exports = {
       userId: Joi.string().required()
     },
     body: {
-      mobileNumber: Joi.string().required()
+      userName: Joi.string().required(),
+      mobileNumber: Joi.string().required(),
+      fullName: Joi.string().required()
     }
   },
 
