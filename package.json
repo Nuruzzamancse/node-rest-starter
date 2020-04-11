@@ -71,7 +71,7 @@
     "apidoc": "apidoc -i ./src -f .route.js -o ./docs"
   },
   "apidoc": {
-    "title": "Node Rest Starter",
+    "title": "Safety Count Web Portal",
     "url": "{baseURL}"
   }
 }

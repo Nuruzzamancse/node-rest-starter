@@ -1,5 +1,5 @@
 const express = require('express')
-const userRoutes = require('./api/user/user.route')
+const companyRoute = require('./api/company/company.route')
 const authRoutes = require('./api/auth/auth.route')
 
 const router = express.Router()
@@ -18,10 +18,10 @@ const router = express.Router()
 router.get('/', (req, res) => res.send('OK'))
 
 /**
- * @apiDescription Mounts user routes at /users
- * @apiGroup User
+ * @apiDescription Mounts company routes at /company
+ * @apiGroup Company
  */
-router.use('/users', userRoutes)
+router.use('/company', companyRoute)
 
 /**
  * @apiDescription Mounts auth routes at /auth

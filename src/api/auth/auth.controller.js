@@ -5,7 +5,7 @@ const _ = require('lodash')
 const JWToken = require('../../libs/jwToken')
 const APIError = require('../../libs/APIError')
 const db = require('../../models/index')
-const { UsersPublicField } = require('../user/user.controller')
+const { UsersPublicField } = require('../company/company.controller')
 /**
  * Returns jwt token if valid useranme and password is provided
  * @property {string} req.body.username username of user
