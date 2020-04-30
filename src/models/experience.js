@@ -1,12 +1,13 @@
 module.exports = (sequelize, DataTypes) => {
-  const Post = sequelize.define('post', {
+  const Experience = sequelize.define('experience', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true
     },
-    title: DataTypes.STRING,
-    content: {
+    company: DataTypes.STRING,
+    yearOfExp: DataTypes.STRING,
+    technologies: {
       type: DataTypes.TEXT,
       allowNull: false
     }
@@ -16,9 +17,9 @@ module.exports = (sequelize, DataTypes) => {
   }
   )
 
-  Post.associate = (models) => {
-    Post.belongsTo(models.user)
+  Experience.associate = (models) => {
+    Experience.belongsTo(models.basicInfo)
   }
 
-  return Post
+  return Experience
 }

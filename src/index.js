@@ -6,7 +6,7 @@
  */
 const consola = require('consola')
 const db = require('./models')
-const { seedDummyData } = require('./utils/fakers')
+// const { seedDummyData } = require('./utils/fakers')
 
 const app = require('./config/express')
 const env = require('./config/environment')
@@ -18,7 +18,7 @@ consola.wrapAll()
  */
 if (env.nodeEnv !== 'test') {
   db.sequelize.sync().then(() => {
-    seedDummyData()
+    // seedDummyData()
     app.listen(env.port, () => {
       consola.ready({
         message: `${env.appName} Server`,

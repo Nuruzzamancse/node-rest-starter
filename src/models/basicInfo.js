@@ -1,12 +1,12 @@
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define('user', {
+  const BasicInfo = sequelize.define('basicInfo', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true
     },
-    userName: DataTypes.STRING,
     fullName: DataTypes.STRING,
+    email: DataTypes.STRING,
     mobileNumber: DataTypes.STRING,
     password: DataTypes.STRING
   },
@@ -15,9 +15,10 @@ module.exports = (sequelize, DataTypes) => {
   }
   )
 
-  User.associate = (models) => {
-    User.hasMany(models.post)
+  BasicInfo.associate = (models) => {
+    BasicInfo.hasMany(models.experience)
+    BasicInfo.hasMany(models.project)
   }
 
-  return User
+  return BasicInfo
 }
